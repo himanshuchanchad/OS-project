@@ -11,15 +11,14 @@ package canteen;
  */
 public class order_detail {
     int uid;
-    int id;
-    String date;
+    String date,order_detail;
     int ordervalue;
     int order_status;
     int priority;
-    public order_detail(int uid,int id,String date,int ordervalue,int order_status,int priority)       
+    public order_detail(int uid,String order_detail,String date,int ordervalue,int order_status,int priority)       
     {
     this.uid=uid;
-    this.id=id;
+    this.order_detail=order_detail;
     this.date=date;
     this.ordervalue=ordervalue;
     this.order_status=order_status;
@@ -29,9 +28,9 @@ public class order_detail {
     {
       return uid;  
     }
-     public int getid()
+     public String getorder_detail()
     {
-        return id;
+        return order_detail;
     }
     public String getdate()
     {
