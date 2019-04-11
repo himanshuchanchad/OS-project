@@ -287,11 +287,9 @@ public int value(String s)
                         .addGap(46, 46, 46)
                         .addGroup(login_pageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(go_signup, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(104, Short.MAX_VALUE))
-                    .addGroup(login_pageLayout.createSequentialGroup()
-                        .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(login_page, "card2");
@@ -645,12 +643,12 @@ public int value(String s)
                         .addContainerGap()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)))
-                .addGroup(admin_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(adminpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(admin_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(adminpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(61, 61, 61)
                 .addComponent(admin_button, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(286, Short.MAX_VALUE))
+                .addContainerGap(291, Short.MAX_VALUE))
         );
 
         getContentPane().add(admin_login, "card6");
@@ -779,22 +777,25 @@ public int value(String s)
             document.open();
  System.out.println("writing complete");
             Paragraph p = new Paragraph();
-            p.add("This is my paragraph 1");
+            p.add("CANTEEN BILL ");
             p.setAlignment(Element.ALIGN_CENTER);
 
             document.add(p);
 
             Paragraph p2 = new Paragraph();
-            p2.add("This is my paragraph 2"); //no alignment
-
+            p2.add("ORDERS :"+select1s +" QTY :"+orderqty1); //no alignment
+            Paragraph p3 = new Paragraph();
+            p3.add("ORDERS :"+select2s +" QTY :"+orderqty2);
+            Paragraph p4 = new Paragraph();
+            p4.add("ORDERS :"+select3s +" QTY :"+orderqty3);
             document.add(p2);
-
+            
             Font f = new Font();
             f.setStyle(Font.BOLD);
             f.setSize(8);
 
-            document.add(new Paragraph("This is my paragraph 3", f));
-
+            document.add(new Paragraph("Estimated time for order : "+totaltime+"minute", f));
+            document.add(new Paragraph("PAY MONEY AT THE COUNTER", f));
             //close
             document.close();
             
