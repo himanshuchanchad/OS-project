@@ -26,12 +26,14 @@ import javax.swing.table.*;
  * @author Himanshu
  */
 public class mainframe extends javax.swing.JFrame {
+    int priority=0;
      int current_user=0;
     Connection conn=null;
     Statement stmt=null;
     ResultSet rs=null;
     int value=0;
     int lunch=20,chinese=30,dosa=5,uthappa=4,coffee=3,tea=3;
+    int lunch_value=20,chinese_value=30,dosa_value=5,uthappa_value=4,coffee_value=3,tea_value=3;
      static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
    
@@ -53,24 +55,23 @@ public ArrayList<order_detail> ordetail(){
        {
           stmt=conn.createStatement();
           System.out.println("rs");
-          String sql="SELECT * FROM orders WHERE ordercompleted !=1  ORDER BY ordercompleted asc,priority desc ,ordervalue asc, orderdate asc";
+          String sql="SELECT * FROM orders WHERE ordercompleted !=1  ORDER BY cooking desc, ordercompleted asc,priority desc ,ordervalue asc, orderdate asc";
           rs=stmt.executeQuery(sql);
           System.out.println("rs");
           order_detail orderd;
           while(rs.next())
           {
               System.out.println(rs.getInt("unique_id"));
-              orderd=new order_detail(rs.getInt("unique_id"),rs.getString("detail_order"),rs.getDate("orderdate").toString(),rs.getInt("ordervalue"),rs.getInt("ordercompleted"),rs.getInt("priority"));
+              orderd=new order_detail(rs.getInt("unique_id"),rs.getString("detail_order"),rs.getDate("orderdate").toString(),rs.getInt("ordervalue"),rs.getInt("ordercompleted"),rs.getInt("priority"),rs.getInt("cooking"));
               ordetail.add(orderd);
           }
           
        }catch(HeadlessException | SQLException e)
        {
-          System.out.println(e);  
+          System.out.println("ddfdfww"+e);  
        }
     return ordetail;
 }
-
     /**
      *
      */
@@ -78,7 +79,7 @@ public void fetch()
 {
    ArrayList<order_detail> list=ordetail();
    DefaultTableModel model=(DefaultTableModel)admintable.getModel();
-   Object[] row =new Object[6];
+   Object[] row =new Object[7];
    for(int i=0;i<list.size();i++)
    {
        row[0]=list.get(i).getuid();
@@ -87,6 +88,7 @@ public void fetch()
        row[3]=list.get(i).getordervalue();
        row[4]=list.get(i).getorder_status();
        row[5]=list.get(i).getpriority();
+       row[6]=list.get(i).getcooking();
        model.addRow(row);
        
    }
@@ -141,7 +143,7 @@ public void refresh()
       }
       if(order_status==1)
       {
-        labelorderstatus.setText("YOUR ORDERS IS being prepared collect your order");  
+        labelorderstatus.setText("YOUR ORDERS is being prepared collect your order");  
       }
       else if(cooking==1)
       {
@@ -212,12 +214,30 @@ public void refresh()
         Cooked = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         Cooked1 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        availability = new javax.swing.JButton();
         admin_login = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         adminusername = new javax.swing.JTextField();
         adminpassword = new javax.swing.JPasswordField();
         jLabel8 = new javax.swing.JLabel();
         admin_button = new javax.swing.JButton();
+        admin_button1 = new javax.swing.JButton();
+        available = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        lunch_field = new javax.swing.JTextField();
+        chinese_field = new javax.swing.JTextField();
+        dosa_field = new javax.swing.JTextField();
+        uthappa_field = new javax.swing.JTextField();
+        tea_field = new javax.swing.JTextField();
+        coffee_field = new javax.swing.JTextField();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -303,9 +323,9 @@ public void refresh()
             login_pageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(login_pageLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(login_pageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(admin_page_redirector, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(logo))
+                .addGroup(login_pageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(logo)
+                    .addComponent(admin_page_redirector, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(96, 96, 96)
                 .addGroup(login_pageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(username, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -456,11 +476,17 @@ public void refresh()
             }
         });
 
-        select1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "lunch", "chinese", "dosa", "uthappa", "coffee", "tea" }));
+        select1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "lunch", "chinese", "dosa", "uthappa", "coffee", "tea" }));
 
-        select2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "lunch", "chinese", "dosa", "uthappa", "coffee", "tea" }));
+        order1.setText("0");
 
-        select3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "", "lunch", "chinese", "dosa", "uthappa", "coffee", "tea" }));
+        select2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "tea", "lunch", "chinese", "dosa", "uthappa", "coffee" }));
+
+        select3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "lunch", "chinese", "dosa", "uthappa", "coffee", "tea" }));
+
+        order3.setText("0");
+
+        order2.setText("0");
 
         jLabel6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(102, 255, 102));
@@ -558,7 +584,7 @@ public void refresh()
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(labelorderstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         getContentPane().add(userpage, "card4");
@@ -571,11 +597,11 @@ public void refresh()
 
             },
             new String [] {
-                "unique id", "order list", "datetime", "order value", " order  status ", "priority"
+                "unique id", "order list", "datetime", "order value", " order  status ", "priority", "cooking"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -596,6 +622,8 @@ public void refresh()
             admintable.getColumnModel().getColumn(4).setPreferredWidth(5);
             admintable.getColumnModel().getColumn(5).setResizable(false);
             admintable.getColumnModel().getColumn(5).setPreferredWidth(5);
+            admintable.getColumnModel().getColumn(6).setResizable(false);
+            admintable.getColumnModel().getColumn(6).setPreferredWidth(2);
         }
 
         jLabel10.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -634,6 +662,26 @@ public void refresh()
             }
         });
 
+        jButton7.setBackground(new java.awt.Color(255, 102, 102));
+        jButton7.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("LOGOUT");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        availability.setBackground(new java.awt.Color(255, 0, 51));
+        availability.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        availability.setForeground(new java.awt.Color(255, 255, 255));
+        availability.setText("availability");
+        availability.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                availabilityActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout admin_panelLayout = new javax.swing.GroupLayout(admin_panel);
         admin_panel.setLayout(admin_panelLayout);
         admin_panelLayout.setHorizontalGroup(
@@ -641,33 +689,46 @@ public void refresh()
             .addGroup(admin_panelLayout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 666, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(admin_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(admin_panelLayout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addGroup(admin_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Cooked, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
-                            .addComponent(uniqueid)
-                            .addComponent(Cooked1, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE))
-                        .addContainerGap(58, Short.MAX_VALUE))
-                    .addGroup(admin_panelLayout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, admin_panelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(admin_panelLayout.createSequentialGroup()
                         .addGroup(admin_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(101, 101, 101))))
+                            .addGroup(admin_panelLayout.createSequentialGroup()
+                                .addGroup(admin_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(admin_panelLayout.createSequentialGroup()
+                                        .addGap(91, 91, 91)
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(admin_panelLayout.createSequentialGroup()
+                                        .addGap(52, 52, 52)
+                                        .addGroup(admin_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(Cooked1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(uniqueid, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(Cooked, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(0, 64, Short.MAX_VALUE))
+                            .addGroup(admin_panelLayout.createSequentialGroup()
+                                .addGap(33, 33, 33)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(availability, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         admin_panelLayout.setVerticalGroup(
             admin_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
             .addGroup(admin_panelLayout.createSequentialGroup()
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addGroup(admin_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(availability, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
+                .addGap(18, 18, 18)
                 .addComponent(uniqueid, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
                 .addComponent(Cooked1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addGap(33, 33, 33)
                 .addComponent(Cooked, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -700,6 +761,15 @@ public void refresh()
             }
         });
 
+        admin_button1.setBackground(new java.awt.Color(255, 0, 0));
+        admin_button1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        admin_button1.setText("Back");
+        admin_button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                admin_button1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout admin_loginLayout = new javax.swing.GroupLayout(admin_login);
         admin_login.setLayout(admin_loginLayout);
         admin_loginLayout.setHorizontalGroup(
@@ -717,8 +787,10 @@ public void refresh()
                             .addComponent(adminpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(admin_loginLayout.createSequentialGroup()
                         .addGap(302, 302, 302)
-                        .addComponent(admin_button, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(404, Short.MAX_VALUE))
+                        .addComponent(admin_button, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(admin_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(278, Short.MAX_VALUE))
         );
         admin_loginLayout.setVerticalGroup(
             admin_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -732,11 +804,146 @@ public void refresh()
                     .addComponent(adminpassword, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(74, 74, 74)
-                .addComponent(admin_button, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(admin_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(admin_button, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(admin_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(362, Short.MAX_VALUE))
         );
 
         getContentPane().add(admin_login, "card6");
+
+        available.setBackground(new java.awt.Color(102, 204, 255));
+
+        jLabel12.setBackground(new java.awt.Color(0, 0, 102));
+        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("lunch");
+
+        jLabel13.setBackground(new java.awt.Color(0, 0, 102));
+        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("dosa");
+
+        jLabel14.setBackground(new java.awt.Color(0, 0, 102));
+        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("chinese");
+
+        jLabel15.setBackground(new java.awt.Color(0, 0, 102));
+        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("uthappa");
+
+        jLabel16.setBackground(new java.awt.Color(0, 0, 102));
+        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("tea");
+
+        jLabel17.setBackground(new java.awt.Color(51, 255, 255));
+        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel17.setText("coffee");
+
+        dosa_field.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dosa_fieldActionPerformed(evt);
+            }
+        });
+
+        coffee_field.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                coffee_fieldActionPerformed(evt);
+            }
+        });
+
+        jButton8.setBackground(new java.awt.Color(255, 51, 102));
+        jButton8.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("SAVE");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setBackground(new java.awt.Color(255, 51, 102));
+        jButton9.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jButton9.setForeground(new java.awt.Color(255, 255, 255));
+        jButton9.setText("BACK");
+
+        javax.swing.GroupLayout availableLayout = new javax.swing.GroupLayout(available);
+        available.setLayout(availableLayout);
+        availableLayout.setHorizontalGroup(
+            availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(availableLayout.createSequentialGroup()
+                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(availableLayout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(availableLayout.createSequentialGroup()
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(159, 159, 159)
+                                .addComponent(lunch_field, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(availableLayout.createSequentialGroup()
+                                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(chinese_field, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dosa_field, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(uthappa_field, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(coffee_field, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tea_field, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(availableLayout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(524, Short.MAX_VALUE))
+        );
+        availableLayout.setVerticalGroup(
+            availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(availableLayout.createSequentialGroup()
+                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(availableLayout.createSequentialGroup()
+                        .addGap(175, 175, 175)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, availableLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lunch_field, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(chinese_field, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dosa_field, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32)
+                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(uthappa_field, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tea_field, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37)
+                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(coffee_field, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59)
+                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(165, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(available, "card7");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -781,7 +988,7 @@ public void refresh()
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         System.out.println("clicked");
-        int proir=0;
+       
         try
        {
           stmt=conn.createStatement();
@@ -792,7 +999,7 @@ public void refresh()
           String category1=category.getSelectedItem().toString();
           if(category1.equals("professor"))
           {
-              proir=1;
+              priority=1;
           }
           if(name1.equals("")||email1.equals("")||username1.equals("")||password1.equals(""))
           {
@@ -800,7 +1007,7 @@ public void refresh()
           }else
           {
           System.out.println("data parsed");
-          String sql="INSERT INTO userdata(name,email,username,password,priority) VALUES('"+name1+"','"+email1+"','"+username1+"','"+password1+"','"+proir+"')";
+          String sql="INSERT INTO userdata(name,email,username,password,priority) VALUES('"+name1+"','"+email1+"','"+username1+"','"+password1+"','"+priority+"')";
           //String sql="SELECT *FROM userdata WHERE username='"+username+"' && password='"+password+"'";
           stmt.executeUpdate(sql);
           System.out.println("data inserted");
@@ -830,6 +1037,7 @@ public void refresh()
 
     private void order_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_buttonActionPerformed
       String select1s=select1.getSelectedItem().toString();
+      
       String select2s=select2.getSelectedItem().toString();
       String select3s=select3.getSelectedItem().toString();
       int orderqty1=Integer.parseInt(order1.getText());
@@ -847,14 +1055,15 @@ public void refresh()
         java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
           System.out.println(date);
           int temp=0;
-         String sql="INSERT INTO orders(id,orderdate,ordervalue,ordercompleted,priority,cooking,detail_order) VALUES('"+current_user+"','"+date+"','"+totaltime+"','"+temp+"','"+temp+"','"+temp+"','"+s+"')";
+         String sql="INSERT INTO orders(id,orderdate,ordervalue,ordercompleted,priority,cooking,detail_order) VALUES('"+current_user+"','"+date+"','"+totaltime+"','"+temp+"','"+priority+"','"+temp+"','"+s+"')";
          stmt.executeUpdate(sql);
          JOptionPane.showMessageDialog(null,"Ordered successful");
        }catch(HeadlessException | SQLException e)
        {
          JOptionPane.showMessageDialog(null,"Data insertion failed");  
        }  
-        Document document = new Document();
+      fetch();
+      Document document = new Document();
          try {
              System.out.println("writing in files");
             PdfWriter.getInstance(document, new FileOutputStream("C:\\Users\\Himanshu\\Desktop\\bill.pdf"));
@@ -865,9 +1074,11 @@ public void refresh()
             Paragraph p = new Paragraph();
             p.add("CANTEEN BILL ");
             p.setAlignment(Element.ALIGN_CENTER);
-
+            Font f = new Font();
+            f.setStyle(Font.BOLD);
+            f.setSize(8);
             document.add(p);
-
+            document.add(new Paragraph("\n\n\n", f));
             Paragraph p2 = new Paragraph();
             p2.add("ORDERS :"+select1s +" \tQTY :"+orderqty1); //no alignment
             Paragraph p3 = new Paragraph();
@@ -876,9 +1087,7 @@ public void refresh()
             p4.add("ORDERS :"+select3s +" \tQTY :"+orderqty3);
             document.add(p2);
            
-            Font f = new Font();
-            f.setStyle(Font.BOLD);
-            f.setSize(8);
+            
             document.add(new Paragraph("\n\n\n", f));
             document.add(new Paragraph("Estimated time for order : "+totaltime+"minute", f));
             document.add(new Paragraph("\n\n\n", f));
@@ -957,6 +1166,7 @@ public void refresh()
       login_page.setVisible(true);
       userpage.setVisible(false);
       current_user=0;
+      priority=0;
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -978,6 +1188,45 @@ public void refresh()
              System.out.println(ex);
          }
     }//GEN-LAST:event_Cooked1ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        admin_panel.setVisible(false);
+        login_page.setVisible(true);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void admin_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_admin_button1ActionPerformed
+      admin_login.setVisible(false);
+      login_page.setVisible(true);
+    }//GEN-LAST:event_admin_button1ActionPerformed
+
+    private void availabilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_availabilityActionPerformed
+      admin_panel.setVisible(false);
+      available.setVisible(true);
+ lunch_field.setText(String.valueOf(lunch_value));
+ chinese_field.setText(String.valueOf(chinese_value));
+ dosa_field.setText(String.valueOf(dosa_value));
+ uthappa_field.setText(String.valueOf(uthappa_value));
+ coffee_field.setText(String.valueOf(coffee_value));
+ tea_field.setText(String.valueOf(tea_value)); 
+      
+    }//GEN-LAST:event_availabilityActionPerformed
+
+    private void dosa_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dosa_fieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dosa_fieldActionPerformed
+
+    private void coffee_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coffee_fieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_coffee_fieldActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+ lunch_value=Integer.parseInt(lunch_field.getText());
+ chinese_value=Integer.parseInt(chinese_field.getText());
+ dosa_value=Integer.parseInt(dosa_field.getText());
+ uthappa_value=Integer.parseInt(uthappa_field.getText());
+ coffee_value=Integer.parseInt(coffee_field.getText());
+ tea_value=Integer.parseInt(tea_field.getText());       
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1014,13 +1263,19 @@ public void refresh()
     private javax.swing.JButton Cooked;
     private javax.swing.JButton Cooked1;
     private javax.swing.JButton admin_button;
+    private javax.swing.JButton admin_button1;
     private javax.swing.JPanel admin_login;
     private javax.swing.JButton admin_page_redirector;
     private javax.swing.JPanel admin_panel;
     private javax.swing.JPasswordField adminpassword;
     private javax.swing.JTable admintable;
     private javax.swing.JTextField adminusername;
+    private javax.swing.JButton availability;
+    private javax.swing.JPanel available;
     private javax.swing.JComboBox<String> category;
+    private javax.swing.JTextField chinese_field;
+    private javax.swing.JTextField coffee_field;
+    private javax.swing.JTextField dosa_field;
     private javax.swing.JTextField email;
     private javax.swing.JButton go_signup;
     private javax.swing.JButton jButton1;
@@ -1029,9 +1284,18 @@ public void refresh()
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1046,6 +1310,7 @@ public void refresh()
     private javax.swing.JLabel labelorderstatus;
     private javax.swing.JPanel login_page;
     private javax.swing.JLabel logo;
+    private javax.swing.JTextField lunch_field;
     private javax.swing.JTextField name;
     private javax.swing.JTextField order1;
     private javax.swing.JTextField order2;
@@ -1058,10 +1323,12 @@ public void refresh()
     private javax.swing.JComboBox<String> select2;
     private javax.swing.JComboBox<String> select3;
     private javax.swing.JPanel signup;
+    private javax.swing.JTextField tea_field;
     private javax.swing.JTextField uniqueid;
     private javax.swing.JLabel username;
     private javax.swing.JTextField username_add;
     private javax.swing.JTextField username_entry;
     private javax.swing.JPanel userpage;
+    private javax.swing.JTextField uthappa_field;
     // End of variables declaration//GEN-END:variables
 }

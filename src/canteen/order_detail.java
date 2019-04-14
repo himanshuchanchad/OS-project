@@ -15,7 +15,8 @@ public class order_detail {
     int ordervalue;
     int order_status;
     int priority;
-    public order_detail(int uid,String order_detail,String date,int ordervalue,int order_status,int priority)       
+    int cooking;
+    public order_detail(int uid,String order_detail,String date,int ordervalue,int order_status,int priority,int cooking )       
     {
     this.uid=uid;
     this.order_detail=order_detail;
@@ -23,6 +24,7 @@ public class order_detail {
     this.ordervalue=ordervalue;
     this.order_status=order_status;
     this.priority=priority;
+    this.cooking =cooking;
     }
     public int getuid()
     {
@@ -46,5 +48,9 @@ public class order_detail {
     public int getpriority()
     {
         return priority;
+    }
+    public int getcooking()
+    {
+        return cooking;
     }
 }
