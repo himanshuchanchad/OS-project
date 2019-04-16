@@ -33,7 +33,7 @@ public class mainframe extends javax.swing.JFrame {
     ResultSet rs=null;
     int value=0;
     int lunch=20,chinese=30,dosa=5,uthappa=4,coffee=3,tea=3;
-    int lunch_value=20,chinese_value=30,dosa_value=5,uthappa_value=4,coffee_value=3,tea_value=3;
+    int lunch_value=0,chinese_value=0,dosa_value=0,uthappa_value=0,coffee_value=0,tea_value=0;
      static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     LocalDateTime now = LocalDateTime.now();
    
@@ -71,6 +71,109 @@ public ArrayList<order_detail> ordetail(){
           System.out.println("ddfdfww"+e);  
        }
     return ordetail;
+}
+public boolean   availables(String s,int val){
+    switch(s)
+    {
+        case "lunch":
+        if(lunch_value>=val)
+        {
+            return true;      
+        }
+        break;
+        case "chinese":
+        if(chinese_value>=val)
+        {
+            return true;
+        }
+        break;
+        case "dosa":
+        if(dosa_value>=val)
+        {
+            return true;
+        }
+        break;
+        case "uthappa":
+        if(uthappa_value>=val)
+        {
+            
+            return true;
+        }
+        break;
+        case "coffee":
+        if(coffee_value>=val)
+        {
+            return true;
+        }   
+        break;
+        case "tea":
+        if(tea_value>=val)
+        {                       return true;
+
+        }
+        break;
+        default :
+                     return false;
+
+    }
+    return false;
+}
+public int  decrement(String s,int val){
+    switch(s)
+    {
+        case "lunch":
+        if(lunch_value>=val)
+        {
+            lunch_value=lunch_value-val;
+            lunch_field.setText(String.valueOf(lunch_value));
+            return 1;
+            
+        }
+        break;
+        case "chinese":
+        if(chinese_value>=val)
+        {
+            chinese_value=chinese_value-val;
+            chinese_field.setText(String.valueOf(chinese_value));
+            return 1;
+        }
+        break;
+        case "dosa":
+        if(dosa_value>=val)
+        {
+            dosa_value=dosa_value-val;
+            dosa_field.setText(String.valueOf(dosa_value));
+            return 1;
+        }
+        break;
+        case "uthappa":
+        if(uthappa_value>=val)
+        {
+            uthappa_value=uthappa_value-val;
+            uthappa_field.setText(String.valueOf(uthappa_value));
+            return 1;
+        }
+        break;
+        case "coffee":
+        if(coffee_value>=val)
+        {
+            coffee_value=coffee_value-val;
+            coffee_field.setText(String.valueOf(coffee_value));
+            return 1;
+        }
+        break;
+        case "tea":
+        if(tea_value>=val)
+        {
+            tea_value=coffee_value-val;
+            tea_field.setText(String.valueOf(tea_value));
+            return 1;
+        }
+        break;
+        default :
+           return 0;
+    }
+    return 0;
 }
     /**
      *
@@ -237,7 +340,6 @@ public void refresh()
         tea_field = new javax.swing.JTextField();
         coffee_field = new javax.swing.JTextField();
         jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -443,7 +545,7 @@ public void refresh()
                 .addGroup(signupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 349, Short.MAX_VALUE)
                 .addGroup(signupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -577,14 +679,14 @@ public void refresh()
                             .addComponent(order3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(37, 37, 37)
-                .addComponent(order_button, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(order_button, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
                 .addGroup(userpageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(labelorderstatus, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
 
         getContentPane().add(userpage, "card4");
@@ -715,7 +817,7 @@ public void refresh()
         );
         admin_panelLayout.setVerticalGroup(
             admin_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 837, Short.MAX_VALUE)
             .addGroup(admin_panelLayout.createSequentialGroup()
                 .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(36, 36, 36)
@@ -807,12 +909,12 @@ public void refresh()
                 .addGroup(admin_loginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(admin_button, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(admin_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(362, Short.MAX_VALUE))
+                .addContainerGap(351, Short.MAX_VALUE))
         );
 
         getContentPane().add(admin_login, "card6");
 
-        available.setBackground(new java.awt.Color(102, 204, 255));
+        available.setBackground(new java.awt.Color(51, 51, 255));
 
         jLabel12.setBackground(new java.awt.Color(0, 0, 102));
         jLabel12.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -866,23 +968,19 @@ public void refresh()
             }
         });
 
-        jButton9.setBackground(new java.awt.Color(255, 51, 102));
-        jButton9.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jButton9.setForeground(new java.awt.Color(255, 255, 255));
-        jButton9.setText("BACK");
-
         javax.swing.GroupLayout availableLayout = new javax.swing.GroupLayout(available);
         available.setLayout(availableLayout);
         availableLayout.setHorizontalGroup(
             availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(availableLayout.createSequentialGroup()
-                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(availableLayout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(availableLayout.createSequentialGroup()
+                                .addGap(8, 8, 8)
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(159, 159, 159)
+                                .addGap(151, 151, 151)
                                 .addComponent(lunch_field, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(availableLayout.createSequentialGroup()
                                 .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -899,24 +997,21 @@ public void refresh()
                                     .addComponent(coffee_field, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(tea_field, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(availableLayout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(524, Short.MAX_VALUE))
+                        .addGap(182, 182, 182)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(433, Short.MAX_VALUE))
         );
         availableLayout.setVerticalGroup(
             availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(availableLayout.createSequentialGroup()
                 .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(availableLayout.createSequentialGroup()
-                        .addGap(175, 175, 175)
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32))
+                        .addGap(189, 189, 189)
+                        .addComponent(lunch_field, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, availableLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lunch_field, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(chinese_field, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -936,11 +1031,9 @@ public void refresh()
                 .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(coffee_field, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
-                .addGroup(availableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(165, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
 
         getContentPane().add(available, "card7");
@@ -1036,18 +1129,49 @@ public void refresh()
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void order_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order_buttonActionPerformed
+try
+    {
+    stmt=conn.createStatement();
+    String sql="SELECT * FROM userdata WHERE id='"+current_user+"'";
+    rs=stmt.executeQuery(sql);
+    if(rs.next())
+    {
+     priority=Integer.parseInt(rs.getString("priority"));
+        System.out.println("priority :"+priority);
+    }
+    }
+    catch(HeadlessException | SQLException e)
+    {
+        System.out.println(e); 
+    }      
+        System.out.println("clicked ");
+      int cooking_status=0;
       String select1s=select1.getSelectedItem().toString();
-      
       String select2s=select2.getSelectedItem().toString();
       String select3s=select3.getSelectedItem().toString();
       int orderqty1=Integer.parseInt(order1.getText());
       int orderqty2=Integer.parseInt(order2.getText());
       int orderqty3=Integer.parseInt(order3.getText());
+      if(availables(select1s,orderqty1))
+      {
+            if ((availables(select2s,orderqty2)))
+                    {
+                        if(availables(select3s,orderqty3)) {
+                cooking_status=1;
+                decrement(select1s,orderqty1);
+                decrement(select2s,orderqty2);
+                decrement(select3s,orderqty3);
+                                
+                                
+            }
+      }
+      }
       String s=select1s+":"+orderqty1+select2s+":"+orderqty2+select3s+":"+orderqty3;
       int totaltime=0;
       totaltime+=value(select1s)*orderqty1;
       totaltime+=value(select2s)*orderqty2;
       totaltime+=value(select3s)*orderqty3;
+      System.out.println("sql query  ");
       try
        {
           LocalDateTime now = LocalDateTime.now();
@@ -1055,14 +1179,23 @@ public void refresh()
         java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime());
           System.out.println(date);
           int temp=0;
-         String sql="INSERT INTO orders(id,orderdate,ordervalue,ordercompleted,priority,cooking,detail_order) VALUES('"+current_user+"','"+date+"','"+totaltime+"','"+temp+"','"+priority+"','"+temp+"','"+s+"')";
+         String sql="INSERT INTO orders(id,orderdate,ordervalue,ordercompleted,priority,cooking,detail_order) VALUES('"+current_user+"','"+date+"','"+totaltime+"','"+cooking_status+"','"+priority+"','"+temp+"','"+s+"')";
          stmt.executeUpdate(sql);
          JOptionPane.showMessageDialog(null,"Ordered successful");
        }catch(HeadlessException | SQLException e)
        {
          JOptionPane.showMessageDialog(null,"Data insertion failed");  
-       }  
-      fetch();
+       } 
+          System.out.println("parsed");
+          
+          try{
+           this.fetch();   
+          }catch(Exception e)
+          {
+              System.out.println(e);
+          }
+        
+          System.out.println("fetched");
       Document document = new Document();
          try {
              System.out.println("writing in files");
@@ -1225,7 +1358,9 @@ public void refresh()
  dosa_value=Integer.parseInt(dosa_field.getText());
  uthappa_value=Integer.parseInt(uthappa_field.getText());
  coffee_value=Integer.parseInt(coffee_field.getText());
- tea_value=Integer.parseInt(tea_field.getText());       
+ tea_value=Integer.parseInt(tea_field.getText()); 
+ admin_panel.setVisible(true);
+ available.setVisible(false);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
@@ -1286,7 +1421,6 @@ public void refresh()
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
